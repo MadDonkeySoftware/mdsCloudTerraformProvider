@@ -2,6 +2,7 @@ package mdscloud
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -36,7 +37,7 @@ func dataSourceListServerlessFunctions() *schema.Resource {
 
 func dataSourceListServerlessFunctionsRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	mdsSdk := m.(*sdk.Sdk)
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -46,7 +47,7 @@ func dataSourceListServerlessFunctionsRead(ctx context.Context, d *schema.Resour
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to get resources",
-			Detail:   "Could not get resources from sdk",
+			Detail:   fmt.Sprintf("%s", err),
 		})
 		return diags
 	}

@@ -64,7 +64,7 @@ func resourceServerlessFunction() *schema.Resource {
 func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	name := d.Get("name").(string)
 	mdsSdk := m.(*sdk.Sdk)
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -103,7 +103,7 @@ func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m inter
 func resourceFunctionRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	orid := d.Id()
 	mdsSdk := m.(*sdk.Sdk)
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -154,7 +154,7 @@ func resourceFunctionRead(ctx context.Context, d *schema.ResourceData, m interfa
 }
 
 func updateFunctionCode(mdsSdk *sdk.Sdk, orid string, runtime string, entryPoint string, fileName string) error {
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 	err := sfClient.UpdateFunctionCode(orid, runtime, entryPoint, fileName)
 	return err
 }
@@ -189,7 +189,7 @@ func resourceFunctionUpdate(ctx context.Context, d *schema.ResourceData, m inter
 func resourceFunctionDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	name := d.Get("orid").(string)
 	mdsSdk := m.(*sdk.Sdk)
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics

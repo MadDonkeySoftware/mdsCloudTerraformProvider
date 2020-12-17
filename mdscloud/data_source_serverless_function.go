@@ -55,7 +55,7 @@ func dataSourceServerlessFunction() *schema.Resource {
 func dataSourceServerlessFunctionRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	orid := d.Get("orid").(string)
 	mdsSdk := m.(*sdk.Sdk)
-	sfClient := mdsSdk.GetServerlessFunctionsClient("", "")
+	sfClient := mdsSdk.GetServerlessFunctionsClient()
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
