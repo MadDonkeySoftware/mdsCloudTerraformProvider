@@ -60,11 +60,16 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"mdscloud_function": resourceServerlessFunction(),
+			"mdscloud_function":      resourceServerlessFunction(),
+			"mdscloud_queue":         resourceQueue(),
+			"mdscloud_container":     resourceContainer(),
+			"mdscloud_state_machine": resourceStateMachine(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"mdscloud_list_functions": dataSourceListServerlessFunctions(),
+			"mdscloud_list_functions": dataSourceListServerlessFunctions(), // NOTE: is this really necessary?
 			"mdscloud_function":       dataSourceServerlessFunction(),
+			// TODO: Add queue data block
+			// TODO: Add container data block
 		},
 		ConfigureContextFunc: providerConfigure,
 	}
@@ -91,7 +96,8 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	checkProviderInput(&diags, sfURL, "the serverless functions URL", "sf_url", "MDS_SF_URL")
 	checkProviderInput(&diags, identityURL, "the identity URL", "identity_url", "MDS_IDENTITY_URL")
 
-	sdk := sdk.NewSdk(account, userID, password, allowSelfCert, map[string]string{
+	enableAuthSemaphore := true
+	sdk := sdk.NewSdk(account, userID, password, allowSelfCert, enableAuthSemaphore, map[string]string{
 		"identityUrl": identityURL,
 		"qsUrl":       qsURL,
 		"fsUrl":       fsURL,

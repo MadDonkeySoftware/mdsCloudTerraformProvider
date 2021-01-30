@@ -2,8 +2,6 @@ package mdscloud
 
 import (
 	"context"
-	"fmt"
-	"reflect"
 
 	"github.com/MadDonkeySoftware/mdsCloudSdkGo/sdk"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -74,7 +72,8 @@ func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m inter
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to create resource",
-			Detail:   "Could not create resource from sdk",
+			Detail:   err.Error(),
+			// Detail:   "Could not create resource from sdk",
 		})
 		return diags
 	}
@@ -85,6 +84,8 @@ func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m inter
 
 	err = updateFunctionCode(mdsSdk, summary.Orid, runtime, entryPoint, fileName)
 	if err != nil {
+		sfClient.DeleteFunction(summary.Orid)
+
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to upload resource code",
@@ -93,9 +94,9 @@ func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m inter
 		return diags
 	}
 
-	resourceFunctionRead(ctx, d, m)
-
 	d.SetId(summary.Orid)
+
+	resourceFunctionRead(ctx, d, m)
 
 	return diags
 }
@@ -136,19 +137,7 @@ func resourceFunctionRead(ctx context.Context, d *schema.ResourceData, m interfa
 		"LastUpdate": "last_update",
 		"LastInvoke": "last_invoke",
 	}
-	v := reflect.ValueOf(*summary)
-	for key, funcKey := range fieldMappings {
-		fmt.Println(key)
-		fmt.Println(funcKey)
-		if err := d.Set(funcKey, v.FieldByName(key).String()); err != nil {
-			diags = append(diags, diag.Diagnostic{
-				Severity: diag.Error,
-				Summary:  "Unable to map resources",
-				Detail:   fmt.Sprintf("Could not map response field (%s) from API of resource", key),
-			})
-			return diags
-		}
-	}
+	mapDataFields(&diags, fieldMappings, d, *summary)
 
 	return diags
 }
