@@ -21,4 +21,4 @@ data "mdscloud_list_functions" "all_functions" {
 * `last_update` - A timestamp for the last code push to the function.
 * `last_invoke` - A timestamp for when the function was last executed.
 
-###### Last updated February 2020
+###### Last updated February 2021

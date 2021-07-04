@@ -17,4 +17,4 @@ resource "mdscloud_container" "example_container" {
 
 * `orid` - The orid for this specific container. Ex: `orid:1:mdsCloud:::1001:fs:example`
 
-###### Last updated February 2020
+###### Last updated February 2021

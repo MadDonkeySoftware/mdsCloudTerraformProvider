@@ -29,4 +29,4 @@ resource "mdscloud_state_machine" "test_sm" {
 
 * `orid` - The orid for this specific state machine. Ex: `orid:1:mdsCloud:::1001:sm:test`
 
-###### Last updated February 2020
+###### Last updated February 2021
