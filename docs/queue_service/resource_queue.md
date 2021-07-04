@@ -38,4 +38,4 @@ resource "mdscloud_queue" "example_queue" {
 
 * `orid` - The orid for this specific queue. Ex: `orid:1:mdsCloud:::1001:qs:exampleQueue`
 
-###### Last updated February 2020
+###### Last updated February 2021
