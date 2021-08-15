@@ -54,6 +54,8 @@ github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210103174520-6531c234d974 h1
 github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210103174520-6531c234d974/go.mod h1:qgc/XPB84Nza9K2WWt0u17ZpYZGqTlLIuaMH9wtBeBw=
 github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210105020810-667842488268 h1:CaBoiQZpTSdIfDkiL98kR3hDuIOEcqoBOCpcoQfW43Q=
 github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210105020810-667842488268/go.mod h1:qgc/XPB84Nza9K2WWt0u17ZpYZGqTlLIuaMH9wtBeBw=
+github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210720011707-88a2dbf4ea8d h1:QFqoB+ddCN6UQkazhz7Uq4elEceZmGUY1Ofx4ZG6p2A=
+github.com/MadDonkeySoftware/mdsCloudSdkGo v0.0.0-20210720011707-88a2dbf4ea8d/go.mod h1:qgc/XPB84Nza9K2WWt0u17ZpYZGqTlLIuaMH9wtBeBw=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
 github.com/agext/levenshtein v1.2.2 h1:0S/Yg6LYmFJ5stwQeRp6EeOcCbj7xiqQSdNelsXvaqE=
 github.com/agext/levenshtein v1.2.2/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=

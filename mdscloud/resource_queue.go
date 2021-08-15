@@ -29,6 +29,11 @@ func resourceQueue() *schema.Resource {
 				Optional: true,
 				Default:  nil,
 			},
+			"dlq": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  nil,
+			},
 		},
 	}
 }
@@ -36,6 +41,7 @@ func resourceQueue() *schema.Resource {
 func resourceQueueCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	name := d.Get("name").(string)
 	resource := d.Get("resource").(string)
+	dlq := d.Get("dlq").(string)
 	mdsSdk := m.(*sdk.Sdk)
 	qsClient := mdsSdk.GetQueueServiceClient()
 
@@ -45,6 +51,7 @@ func resourceQueueCreate(ctx context.Context, d *schema.ResourceData, m interfac
 	createResponse, err := qsClient.CreateQueue(&sdk.CreateQueueArgs{
 		Name:     name,
 		Resource: resource,
+		Dlq:      dlq,
 	})
 
 	if err != nil {
@@ -102,6 +109,7 @@ func resourceQueueRead(ctx context.Context, d *schema.ResourceData, m interface{
 	fieldMappings := map[string]string{
 		"Orid":     "orid",
 		"Resource": "resource",
+		"Dlq":      "dlq",
 	}
 	mapDataFields(&diags, fieldMappings, d, *summary)
 
@@ -117,6 +125,7 @@ func resourceQueueUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 		mdsSdk := m.(*sdk.Sdk)
 		orid := d.Get("orid").(string)
 		resource := d.Get("resource").(string)
+		dlq := d.Get("dlq").(string)
 		qsClient := mdsSdk.GetQueueServiceClient()
 
 		// // The default value of empty string is causing issue with a bug in the SDK. Map to "NULL" as work around
@@ -127,6 +136,7 @@ func resourceQueueUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 		err := qsClient.UpdateQueue(&sdk.UpdateQueueArgs{
 			Orid:     orid,
 			Resource: resource,
+			Dlq:      dlq,
 		})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{
