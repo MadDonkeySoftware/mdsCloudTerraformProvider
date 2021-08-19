@@ -35,6 +35,11 @@ func resourceServerlessFunction() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"context": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "",
+			},
 			"created": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
@@ -81,8 +86,9 @@ func resourceFunctionCreate(ctx context.Context, d *schema.ResourceData, m inter
 	runtime := d.Get("runtime").(string)
 	entryPoint := d.Get("entry_point").(string)
 	fileName := d.Get("file_name").(string)
+	context := d.Get("context").(string)
 
-	err = updateFunctionCode(mdsSdk, summary.Orid, runtime, entryPoint, fileName)
+	err = updateFunctionCode(mdsSdk, summary.Orid, runtime, entryPoint, fileName, context)
 	if err != nil {
 		sfClient.DeleteFunction(summary.Orid)
 
@@ -142,9 +148,15 @@ func resourceFunctionRead(ctx context.Context, d *schema.ResourceData, m interfa
 	return diags
 }
 
-func updateFunctionCode(mdsSdk *sdk.Sdk, orid string, runtime string, entryPoint string, fileName string) error {
+func updateFunctionCode(mdsSdk *sdk.Sdk, orid string, runtime string, entryPoint string, fileName string, context string) error {
 	sfClient := mdsSdk.GetServerlessFunctionsClient()
-	err := sfClient.UpdateFunctionCode(orid, runtime, entryPoint, fileName)
+	err := sfClient.UpdateFunctionCode(&sdk.UpdateFunctionCodeArgs{
+		Orid:             orid,
+		Runtime:          runtime,
+		EntryPoint:       entryPoint,
+		SourcePathOrFile: fileName,
+		Context:          context,
+	})
 	return err
 }
 
@@ -153,14 +165,15 @@ func resourceFunctionUpdate(ctx context.Context, d *schema.ResourceData, m inter
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	if d.HasChange("source_code_hash") || d.HasChange("runtime") || d.HasChange("entry_point") {
+	if d.HasChange("source_code_hash") || d.HasChange("runtime") || d.HasChange("entry_point") || d.HasChange("context") {
 		mdsSdk := m.(*sdk.Sdk)
 		orid := d.Get("orid").(string)
 		runtime := d.Get("runtime").(string)
 		entryPoint := d.Get("entry_point").(string)
 		fileName := d.Get("file_name").(string)
+		context := d.Get("context").(string)
 
-		err := updateFunctionCode(mdsSdk, orid, runtime, entryPoint, fileName)
+		err := updateFunctionCode(mdsSdk, orid, runtime, entryPoint, fileName, context)
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{
 				Severity: diag.Error,
