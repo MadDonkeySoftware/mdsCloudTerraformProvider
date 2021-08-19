@@ -9,6 +9,7 @@ resource "mdscloud_function" "example_function" {
   runtime = "node"
   entry_point = "src/test:main"
   source_code_hash = filebase64sha256("code.zip")
+  context = "some string for your context"
 }
 ```
 
@@ -19,6 +20,7 @@ resource "mdscloud_function" "example_function" {
 * `runtime` - (Required) The runtime to use for this serverless function.
 * `entry_point` - (Required) The path to the module/method to execute.
 * `source_code_hash` - (Required) The hash of the file referenced by `file_name`
+* `context` - (Optional) A user defined string that will be supplied to each execution of the serverless function
   
 
 ## Attribute Reference
