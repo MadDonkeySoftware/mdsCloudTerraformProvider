@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+VERSION=$1
+
+cd ./bin
+cp ../release-install-instructions.txt ./install-instructions.txt
+zip -r ../release-$VERSION.zip *
+tar -czf ../release-$VERSION.tar.gz *
+cd ..
+mv ./release-$VERSION.zip ./bin/
+mv ./release-$VERSION.tar.gz ./bin/

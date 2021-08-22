@@ -1,0 +1,14 @@
+# Manual Install Process
+1. Locate the binary in the release archive that you need for your system.
+2. Unpack the binary, Ex: "terraform-provider-mdscloud_0.2_linux_amd64", to the terraform plugins directory on the system running terraform. See referenece below.
+  * The full path will be a folder `linux_amd64` with a file named `terraform-provider-mdscloud*`
+
+# Linux / MacOS
+1. Locate the terraform plugin folder. You may need to create it.
+  * Ex: ~/.terraform.d/plugins
+2. Create the path for this terraform plugin
+  * mkdir -p ~/.terraform.d/plugins/maddonkeysoftware.com/tf/mdscloud/{version}/{architecture}/
+  * Ex: `~/.terraform.d/plugins/maddonkeysoftware.com/tf/mdscloud/0.2/linux_amd64`
+
+# Windows
+Untested
